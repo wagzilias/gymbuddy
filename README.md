@@ -17,10 +17,23 @@ Application personnelle (en français) pour suivre sa progression :
 
 ## Feuille de route
 
-- [ ] **Étape 1 — Base + salle** : navigation, stockage IndexedDB, exercices, programmes, séances, historique des charges et graphique de progression.
+- [x] **Étape 1 — Base + salle** : navigation, stockage IndexedDB, exercices, programmes, séances, historique des charges et graphique de progression.
 - [ ] **Étape 2 — Alimentation** : base d'aliments (valeurs pour 100 g), repas du jour, total des macros vs objectifs, courbe de poids.
 - [ ] **Étape 3 — Course + Strava** : connexion Strava, import des activités, volume hebdo, allure, zones cardio estimées (FC max / FC repos).
 - [ ] **Étape 4 — Assistant vocal** : Web Speech API, appel à Claude Haiku avec des outils (ajouter_aliment, enregistrer_serie…), analyseur local de secours.
+
+## Module salle
+
+- **Bibliothèque** : ~55 exercices préremplis (par muscle et matériel), exercices perso, incrément de charge par exercice.
+- **Programmes** : séances types avec séries, fourchette de reps, repos et charge cible (vide = auto). Trois modèles : Full body A/B, Push/Pull/Legs, Haut/Bas.
+- **Séance** : saisie charge / reps / RPE avec boutons −/+, séance précédente et charge conseillée sous chaque exercice, minuteur de repos (vibration + bip), records signalés en direct, écran maintenu allumé.
+- **Progression** : courbes par exercice (1RM estimé, volume, charge max, reps max), records, historique, volume hebdomadaire.
+- **Surcharge progressive** (double progression) : toutes les séries au haut de la fourchette → +1 palier ; sinon +1 rep ; deux séances sous le bas de la fourchette → décharge de 10 %. Un RPE 10 bloque la hausse.
+- **Poids de corps** : une mesure par jour, moyenne glissante sur 7 jours, partagé avec les autres modules.
+
+### Couche d'actions
+
+Les écrans n'accèdent jamais directement à IndexedDB : tout passe par `src/actions/` (`salle.js`, `poids.js`). `src/actions/index.js` expose ces actions sous forme d'outils (nom, description, schéma JSON) prêts pour l'assistant vocal : `toolDefinitions()` et `runAction(nom, args)`. Les calculs purs (1RM, records, suggestions) sont dans `src/lib/calc.js` et testés avec `npm test` (Node, sans dépendance).
 
 ## Lancer en local
 
@@ -35,9 +48,13 @@ python3 -m http.server 8000
 index.html          Page unique de l'app
 manifest.webmanifest
 sw.js               Service worker (cache hors ligne)
-src/app.js          Routeur et démarrage
+src/app.js          Routeur (#/module/écran/param) et démarrage
 src/lib/db.js       Accès IndexedDB
-src/views/          Un écran par module (salle, course, alimentation, assistant)
+src/lib/calc.js     Calculs purs : 1RM estimé, records, surcharge progressive
+src/lib/            format, courbes SVG, minuteur de repos, exercices et modèles préremplis
+src/actions/        Couche d'actions (salle, poids) + registre d'outils pour l'assistant
+src/views/          Un écran par module ; src/views/salle/ pour les sous-écrans
+tests/              Tests Node des calculs
 styles.css
 icons/
 ```
