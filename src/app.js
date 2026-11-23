@@ -40,4 +40,4 @@ resumeRestTimer();
 window.addEventListener('hashchange', () => { render(); window.scrollTo(0, 0); });
 render();
 
-if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => { /* aperçu sans service worker */ });
