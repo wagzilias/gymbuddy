@@ -2,12 +2,16 @@
 const DB_NAME = 'gymbuddy';
 const DB_VERSION = 1;
 const STORES = {
-  exercises: { keyPath: 'id', autoIncrement: true },   // { name, muscle }
-  programs:  { keyPath: 'id', autoIncrement: true },   // { name, days: [{ name, exerciseIds }] }
-  sessions:  { keyPath: 'id', autoIncrement: true, indexes: ['date'] }, // { date, programId, sets: [{ exerciseId, reps, kg }] }
+  // { slug?, name, muscle, equipment, increment, bodyweight?, custom, archived? }
+  exercises: { keyPath: 'id', autoIncrement: true },
+  // { name, createdAt, days: [{ name, exercises: [{ exerciseId, sets, repsMin, repsMax, kg, rest }] }] }
+  programs:  { keyPath: 'id', autoIncrement: true },
+  // { date, startedAt, endedAt, name, programId?, dayIndex?, notes?,
+  //   exercises: [{ exerciseId, target, sets: [{ kg, reps, rpe?, at, pr? }] }] }
+  sessions:  { keyPath: 'id', autoIncrement: true, indexes: ['date'] },
   foods:     { keyPath: 'id', autoIncrement: true },   // { name, kcal, protein, carbs, fat } pour 100 g
   meals:     { keyPath: 'id', autoIncrement: true, indexes: ['date'] }, // { date, slot, items: [{ foodId, grams }] }
-  weights:   { keyPath: 'date' },                      // { date, kg }
+  weights:   { keyPath: 'date' },                      // { date, kg } poids de corps, partagé
   runs:      { keyPath: 'id', indexes: ['date'] },     // activités Strava
   settings:  { keyPath: 'key' },                       // { key, value }
 };

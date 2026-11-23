@@ -1,0 +1,10 @@
+{
+  "name": "gymbuddy",
+  "private": true,
+  "type": "module",
+  "description": "Aucune dépendance : seul `npm test` utilise Node (node:test) pour les calculs purs.",
+  "scripts": {
+    "start": "python3 -m http.server 8000",
+    "test": "node --test tests/*.test.js"
+  }
+}
