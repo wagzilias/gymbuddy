@@ -1,0 +1,10 @@
+{
+  "name": "GymBuddy",
+  "short_name": "GymBuddy",
+  "lang": "fr",
+  "start_url": "./#/salle",
+  "display": "standalone",
+  "background_color": "#111827",
+  "theme_color": "#111827",
+  "icons": [{ "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}
